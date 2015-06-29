@@ -1,0 +1,240 @@
+var currentclass;
+var archerlevel=1
+var saberlevel=1
+var archer=false;
+var saber=false;
+var archerexp;
+var saberexp;
+var archermaxexp;
+var sabermaxexp;
+var currentexp;
+var maxcurrentexp;
+var currentlevel;
+var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
+var activity = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
+var classheader = new android.widget.TextView(ctx);
+var classnext = new android.widget.TextView(ctx);
+var classclose = new android.widget.TextView(ctx);
+var class1 =new android.widget.TextView(ctx);
+var class2 =new android.widget.TextView(ctx);
+var class3 = new android.widget.TextView(ctx);
+var class4 =new android.widget.TextView(ctx);
+var class5 = new android.widget.TextView(ctx);
+var currentclassGUI =new android.widget.TextView(ctx);
+var currentlevelGUI =new android.widget.TextView(ctx);
+var currentexpGUI =new android.widget.TextView(ctx);
+var changeclass =new android.widget.TextView(ctx);
+var selectGUI;
+var infoGUI;
+var showclass=false;
+
+function newLevel() {
+    loadStats();
+}
+
+function loadStats() {
+    currentclass=ModPE.readData("lastclass");
+    archerlevel=ModPE.readData("levelarcher");
+    saberlevel=ModPE.readData("levelsaber");
+    archerexp=ModPE.readData("xparcher");
+    saberexp=ModPE.readData("xpsaber");
+    archermaxexp=Math.round(archerlevel+5*30);
+    sabermaxexp=Math.round(saberlevel+5*30);
+    if(!currentclass) {
+        currentclass="Archer";
+    }
+}
+
+function modTick() {
+    if(!showclass) {
+        dismissselect();
+        makeInfoGUI();
+        showInfo();
+    }
+    if(showclass) {
+        dismissinfo();
+        makeselectGUI();
+        showSelect();
+    }
+}
+
+function dismissselect() {
+    ctx.runOnUiThread(new java.lang.Runnable(){
+        run: function(){
+            if(selectGUI!=null) {
+                selectGUI.dismiss();
+                class1.getParent().removeView(class1);
+                class2.getParent().removeView(class2);
+                class3.getParent().removeView(class3);
+                class4.getParent().removeView(class4);
+                class5.getParent().removeView(class5);
+                class6.getParent().removeView(class6);
+                classheader.getParent().removeView(classheader);
+                classnext.getParent().removeView(classnext);
+                classclose.getParent().removeView(classclose);
+            }
+        }
+    });
+}
+
+function makeInfoGUI() {
+    ctx.runOnUiThread(new java.lang.Runnable(){
+        run: function(){
+            try{
+                infoGUI=new android.widget.PopupWindow();
+                var layout = new android.widget.LinearLayout(ctx);
+                layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+                layout.setGravity(android.view.Gravity.LEFT);
+                layout.addView(currentclassGUI);
+                layout.addView(currentlevelGUI);
+                layout.addView(currentexpGUI);
+                layout.addView(changeclass);
+                infoGUI.setContentView(layout);
+                infoGUI.setHeight(android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
+                infoGUI.setWidth(android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
+                infoGUI.showAtLocation(ctx.getWindow().getDecorView(), android.view.Gravity.CENTER | android.view.Gravity.LEFT, 0, -55);
+            }catch(e) {
+                print(e)
+            }
+        }
+    })
+}
+
+function showInfo() {
+    ctx.runOnUiThread(new java.lang.Runnable({
+        run: function() {
+            currentclassGUI.setText("Class : " + currentclass);
+            currentclassGUI.setTextColor(android.graphics.Color.GREEN);
+            currentclassGUI.setTextSize(18);
+            if(currentclass=="Archer") {
+                currentexp=archerexp;
+                maxcurrentexp=archermaxexp;
+                currentlevel=archerlevel;
+            }
+            if(currentclass=="Saber") {
+                currentexp=saberexp;
+                maxcurrentexp=sabermaxexp;
+                currentlevel=saberlevel;
+            }
+            currentlevelGUI.setText("Level : " + currentlevel);
+            currentlevelGUI.setTextColor(android.graphics.Color.GREEN);
+            currentlevelGUI.setTextSize(18);
+            var percent = Math.round(currentexp/maxcurrentexp)*100;
+            currentexpGUI.setText("Exp : " + percent + "% " + "["+currentexp+"/"+maxcurrentexp+"]");
+            currentexpGUI.setTextSize(18);
+            currentexpGUI.setTextColor(android.graphics.Color.GREEN);
+            changeclass.setText("Change Class");
+            changeclass.setTextSize(18);
+            changeclass.setTextColor(android.graphics.Color.RED)
+            changeclass.setOnClickListener(new android.view.View.OnClickListener({
+                onClick: function(viewarg) {
+                    showclass=true;
+                }
+            }));
+        }
+    }));
+}
+
+function dismissinfo() {
+    ctx.runOnUiThread(new java.lang.Runnable(){
+        run: function(){
+            if(infoGUI!=null) {
+                infoGUI.dismiss();
+                currentclassGUI.getParent().removeView(currentclassGUI);
+                currentlevelGUI.getParent().removeView(currentlevelGUI);
+                currentexpGUI.getParent().removeView(currentexpGUI);
+                changeclass.getParent().removeView(changeclass);
+            }
+        }
+    });
+}
+
+function makeselectGUI() {
+    ctx.runOnUiThread(new java.lang.Runnable(){
+        run: function(){
+            try{
+                selectGUI=new android.widget.PopupWindow();
+                var layout = new android.widget.LinearLayout(ctx);
+                layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+                layout.setGravity(android.view.Gravity.LEFT);
+                layout.addView(classheader);
+                layout.addView(class1);
+                layout.addView(class2);
+                layout.addView(classclose);
+                selectoGUI.setContentView(layout);
+                selectGUI.setHeight(android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
+                selectGUI.setWidth(android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
+                selectGUI.showAtLocation(ctx.getWindow().getDecorView(), android.view.Gravity.CENTER | android.view.Gravity.LEFT, 0, -55);
+            }catch(e) {
+                print(e)
+            }
+        }
+    })
+}
+
+function showSelect() {
+    ctx.runOnUiThread(new java.lang.Runnable({
+        run: function() {
+            classheader.setText("Showing page 1 of 1");
+            classheader.setTextColor(android.graphics.Color.GREEN);
+            classheader.setTextSize(20);
+            class1.setText("1. Archer " +"["+archerlevel+"]");
+            class1.setTextColor(android.graphics.Color.GREEN);
+            class1.setTextSize(18);
+            class2.setText("2. Saber " +"["+saberlevel+"]");
+            class2.setTextColor(android.graphics.Color.GREEN);
+            class2.setTextSize(18);
+            classclose.setText("Close");
+            classclose.setTextSize(18);
+            classclose.setTextColor(android.graphics.Color.RED)
+            classclose.setOnClickListener(new android.view.View.OnClickListener({
+                onClick: function(viewarg) {
+                    showclass=false;
+                }
+            }))
+            class1.setOnClickListener(new android.view.View.OnClickListener({
+                onClick: function(viewarg) {
+                    if(currentclass!="Archer") {
+                        clientMessage("Selected class : Archer")
+                        currentclass="Archer"
+                    } else {
+                        clientMessage("Your current class is Archer")
+                    }
+                    showclass=false;
+                }
+            }))
+            class2.setOnClickListener(new android.view.View.OnClickListener({
+                onClick: function(viewarg) {
+                    if(currentclass!="Saber") {
+                        clientMessage("Selected class : Saber");
+                        currentclass="Saber"
+                    } else {
+                        clientMessage("Your current class is Saber")
+                    }
+                    showclass=false;
+                }
+            }));
+        }
+    }));
+}
+
+function leaveGame() {
+    dismissinfo();
+    dismissselect();
+    savestats();
+}
+
+function savestats() {
+    ModPE.saveData("lastclass",currentclass);
+    ModPE.saveData("levelarcher",archerlevel);
+    ModPE.saveData("levelsaber",saberlevel);
+    ModPE.saveData("xparcher",archerexp);
+    ModPE.saveData("xpsaber",saberxp);
+}
+function procCm(cmd) {
+    var c=cmd.split(" ");
+    if(c[0]=="class") {
+        preventDefault();
+        showclass=true;
+    }
+}
