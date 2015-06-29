@@ -7,9 +7,6 @@ var archerexp;
 var saberexp;
 var archermaxexp;
 var sabermaxexp;
-var currentexp;
-var maxcurrentexp;
-var currentlevel;
 var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
 var activity = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
 var classheader = new android.widget.TextView(ctx);
@@ -30,6 +27,8 @@ var showclass=0;
 
 function newLevel() {
     loadStats();
+makeselectGUI();
+makeInfoGUI();
 }
 
 function loadStats() {
@@ -60,13 +59,9 @@ function loadStats() {
 
 function modTick() {
     if(showclass==1) {
-        dismissselect();
-        makeInfoGUI();
         showInfo();
     }
     if(showclass==2) {
-        dismissinfo();
-        makeselectGUI();
         showSelect();
     }
 }
@@ -76,14 +71,15 @@ function dismissselect() {
         run: function(){
             if(selectGUI!=null) {
                 selectGUI.dismiss();
+                selectGUI=null;
                 class1.getParent().removeView(class1);
                 class2.getParent().removeView(class2);
-                class3.getParent().removeView(class3);
-                class4.getParent().removeView(class4);
-                class5.getParent().removeView(class5);
-                class6.getParent().removeView(class6);
+                //class3.getParent().removeView(class3);
+                //class4.getParent().removeView(class4);
+                //class5.getParent().removeView(class5);
+                //class6.getParent().removeView(class6);
                 classheader.getParent().removeView(classheader);
-                classnext.getParent().removeView(classnext);
+                //classnext.getParent().removeView(classnext);
                 classclose.getParent().removeView(classclose);
             }
         }
@@ -116,6 +112,9 @@ function makeInfoGUI() {
 function showInfo() {
     ctx.runOnUiThread(new java.lang.Runnable({
         run: function() {
+            var currentexp;
+            var maxcurrentexp;
+            var currentlevel;
             currentclassGUI.setText("Class : " + currentclass);
             currentclassGUI.setTextColor(android.graphics.Color.GREEN);
             currentclassGUI.setTextSize(18);
@@ -142,6 +141,10 @@ function showInfo() {
             changeclass.setOnClickListener(new android.view.View.OnClickListener(){
                 onClick: function(viewarg) {
                     showclass=2;
+                    if(selectGUI==null) {
+                    makeselectGUI();
+                    }
+                    dismissinfo();
                 }
             });
         }
@@ -153,6 +156,7 @@ function dismissinfo() {
         run: function(){
             if(infoGUI!=null) {
                 infoGUI.dismiss();
+                infoGUI=null;
                 currentclassGUI.getParent().removeView(currentclassGUI);
                 currentlevelGUI.getParent().removeView(currentlevelGUI);
                 currentexpGUI.getParent().removeView(currentexpGUI);
@@ -202,6 +206,10 @@ function showSelect() {
             classclose.setTextColor(android.graphics.Color.RED)
             classclose.setOnClickListener(new android.view.View.OnClickListener(){
                 onClick: function(viewarg) {
+                    dismissselect();
+                    if(infoGUI==null) {
+                    makeInfoGUI();
+                    }
                     showclass=1;
                 }
             })
@@ -212,6 +220,10 @@ function showSelect() {
                         currentclass="Archer"
                     } else {
                         clientMessage("Your current class is Archer")
+                    }
+                    dismissselect();
+                    if(infoGUI==null) {
+                    makeInfoGUI();
                     }
                     showclass=1;
                 }
@@ -224,7 +236,11 @@ function showSelect() {
                     } else {
                         clientMessage("Your current class is Saber")
                     }
+                    dismissselect();
+                    if(infoGUI==null) {
+                    makeInfoGUI();
                     showclass=1;
+                    }
                 }
             });
         }
