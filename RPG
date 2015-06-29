@@ -26,18 +26,31 @@ var currentexpGUI =new android.widget.TextView(ctx);
 var changeclass =new android.widget.TextView(ctx);
 var selectGUI;
 var infoGUI;
-var showclass=false;
+var showclass=0;
 
 function newLevel() {
     loadStats();
 }
 
 function loadStats() {
+    showclass=1;
     currentclass=ModPE.readData("lastclass");
     archerlevel=ModPE.readData("levelarcher");
+    if(archerlevel==null) {
+        archerlevel=1;
+    }
     saberlevel=ModPE.readData("levelsaber");
+    if(saberlevel==null) {
+        saberlevel=1;
+    }
     archerexp=ModPE.readData("xparcher");
+    if(archerexp==null) {
+        archerexp=0;
+    }
     saberexp=ModPE.readData("xpsaber");
+    if(saberexp==null) {
+        saberexp=0;
+    }
     archermaxexp=Math.round(archerlevel+5*30);
     sabermaxexp=Math.round(saberlevel+5*30);
     if(!currentclass) {
@@ -46,12 +59,12 @@ function loadStats() {
 }
 
 function modTick() {
-    if(!showclass) {
+    if(showclass==1) {
         dismissselect();
         makeInfoGUI();
         showInfo();
     }
-    if(showclass) {
+    if(showclass==2) {
         dismissinfo();
         makeselectGUI();
         showSelect();
@@ -126,11 +139,11 @@ function showInfo() {
             changeclass.setText("Change Class");
             changeclass.setTextSize(18);
             changeclass.setTextColor(android.graphics.Color.RED)
-            changeclass.setOnClickListener(new android.view.View.OnClickListener({
+            changeclass.setOnClickListener(new android.view.View.OnClickListener(){
                 onClick: function(viewarg) {
-                    showclass=true;
+                    showclass=2;
                 }
-            }));
+            });
         }
     }));
 }
@@ -161,7 +174,7 @@ function makeselectGUI() {
                 layout.addView(class1);
                 layout.addView(class2);
                 layout.addView(classclose);
-                selectoGUI.setContentView(layout);
+                selectGUI.setContentView(layout);
                 selectGUI.setHeight(android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
                 selectGUI.setWidth(android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
                 selectGUI.showAtLocation(ctx.getWindow().getDecorView(), android.view.Gravity.CENTER | android.view.Gravity.LEFT, 0, -55);
@@ -187,12 +200,12 @@ function showSelect() {
             classclose.setText("Close");
             classclose.setTextSize(18);
             classclose.setTextColor(android.graphics.Color.RED)
-            classclose.setOnClickListener(new android.view.View.OnClickListener({
+            classclose.setOnClickListener(new android.view.View.OnClickListener(){
                 onClick: function(viewarg) {
-                    showclass=false;
+                    showclass=1;
                 }
-            }))
-            class1.setOnClickListener(new android.view.View.OnClickListener({
+            })
+            class1.setOnClickListener(new android.view.View.OnClickListener(){
                 onClick: function(viewarg) {
                     if(currentclass!="Archer") {
                         clientMessage("Selected class : Archer")
@@ -200,10 +213,10 @@ function showSelect() {
                     } else {
                         clientMessage("Your current class is Archer")
                     }
-                    showclass=false;
+                    showclass=1;
                 }
-            }))
-            class2.setOnClickListener(new android.view.View.OnClickListener({
+            })
+            class2.setOnClickListener(new android.view.View.OnClickListener(){
                 onClick: function(viewarg) {
                     if(currentclass!="Saber") {
                         clientMessage("Selected class : Saber");
@@ -211,9 +224,9 @@ function showSelect() {
                     } else {
                         clientMessage("Your current class is Saber")
                     }
-                    showclass=false;
+                    showclass=1;
                 }
-            }));
+            });
         }
     }));
 }
@@ -222,6 +235,7 @@ function leaveGame() {
     dismissinfo();
     dismissselect();
     savestats();
+    showclass=0;
 }
 
 function savestats() {
@@ -229,12 +243,12 @@ function savestats() {
     ModPE.saveData("levelarcher",archerlevel);
     ModPE.saveData("levelsaber",saberlevel);
     ModPE.saveData("xparcher",archerexp);
-    ModPE.saveData("xpsaber",saberxp);
+    ModPE.saveData("xpsaber",saberexp);
 }
-function procCm(cmd) {
+function procCmd(cmd) {
     var c=cmd.split(" ");
     if(c[0]=="class") {
         preventDefault();
-        showclass=true;
+        showclass=2;
     }
 }
