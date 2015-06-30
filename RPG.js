@@ -31,6 +31,8 @@ var hided=false;
 
 function newLevel() {
     loadStats();
+    dismissselect();
+    dismissinfo();
 makeselectGUI();
 makeInfoGUI();
 }
