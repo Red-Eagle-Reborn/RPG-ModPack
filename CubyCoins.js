@@ -58,7 +58,55 @@ function procCmd(cmd) {
       clientMessage(" /shop buy <number> <amount");
       clientMessage(" /shop buy 1 5");
       clientMessage("Shop 1/69");
-      clientMessage("1.Apple 20 Copper");
+      clientMessage("1.Apple 20c");
+      clientMessage("2.Steak 30c");
+    }
+    if(c[1]) {
+      if(c[1] == "1") {
+        clientMessage("3.Diamond Sword 3g 25s 80c");
+      }
+      if(c[1] == "buy") {
+        if(c[2]) {
+          if(c[2] == "3") {
+            if(goldCuby < 3) {
+              clientMessage("Dont Have Enough GOld")l
+            }
+            if(goldCuby >= 3) {
+              if(silverCuby < 25) {
+                if(goldCuby >= 4) {
+                  goldCuby--;
+                  silverCuby+=100;
+                  if(copperCuby >= 80) {
+                    silverCuby -= 25;
+                    copperCuby -= 80;
+                    goldCuby -= 3;
+                    addItemInventory(267,1,0);
+                  }
+                  if(copperCuby < 80) {
+                    silverCuby --;
+                    copperCuby +=100;
+                    addItemInventory(267,1,0);
+                    copperCuby -= 80;
+                  }
+                }
+              }
+              if(silverCuby >= 25) {
+                if(copperCuby >= 80) {
+                  silverCuby -= 25;
+                  copperCuby -= 80;
+                  goldCuby -= 3;
+                  addItemInventory(267,1,0);
+                }
+                if(copperCuby < 80) {
+                  silverCuby--;
+                  copperCuby += 100;
+                  addItemInventory(267,1,0);
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
