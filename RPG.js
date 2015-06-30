@@ -133,7 +133,7 @@ function showInfo() {
             currentlevelGUI.setTextSize(18);
             var convert = currentexp / maxcurrentexp;
             var percent = convert * 100;
-            currentexpGUI.setText("Exp : " + percent + "% " + "["+currentexp+"/"+maxcurrentexp+"]");
+            currentexpGUI.setText("Exp : " + Math.round(percent) + "% " + "["+currentexp+"/"+maxcurrentexp+"]");
             currentexpGUI.setTextSize(18);
             currentexpGUI.setTextColor(android.graphics.Color.GREEN);
             changeclass.setText("Change Class");
