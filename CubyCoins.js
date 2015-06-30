@@ -69,7 +69,7 @@ function procCmd(cmd) {
         if(c[2]) {
           if(c[2] == "3") {
             if(goldCuby < 3) {
-              clientMessage("Dont Have Enough GOld")l
+              clientMessage("Dont Have Enough Gold");
             }
             if(goldCuby >= 3) {
               if(silverCuby < 25) {
