@@ -3,10 +3,13 @@ var archerlevel=1
 var saberlevel=1
 var archer=false;
 var saber=false;
-var archerexp;
-var saberexp;
+var archerexp=0;
+var saberexp=0;
 var archermaxexp;
 var sabermaxexp;
+var currentexp;
+var maxcurrentexp;
+var currentlevel;
 var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
 var activity = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
 var classheader = new android.widget.TextView(ctx);
@@ -24,6 +27,7 @@ var changeclass =new android.widget.TextView(ctx);
 var selectGUI;
 var infoGUI;
 var showclass=0;
+var hided=false;
 
 function newLevel() {
     loadStats();
@@ -34,21 +38,17 @@ makeInfoGUI();
 function loadStats() {
     showclass=1;
     currentclass=ModPE.readData("lastclass");
+    if(ModPE.readData("levelarcher")>0) {
     archerlevel=ModPE.readData("levelarcher");
-    if(archerlevel==null) {
-        archerlevel=1;
     }
+    if(ModPE.readData("levelsaber")>0) {
     saberlevel=ModPE.readData("levelsaber");
-    if(saberlevel==null) {
-        saberlevel=1;
     }
+    if(ModPE.readData("xparcher")>0) {
     archerexp=ModPE.readData("xparcher");
-    if(archerexp==null) {
-        archerexp=0;
     }
+    if(ModPE.readData("xpsaber")>0) {
     saberexp=ModPE.readData("xpsaber");
-    if(saberexp==null) {
-        saberexp=0;
     }
     archermaxexp=Math.round(archerlevel+5*30);
     sabermaxexp=Math.round(saberlevel+5*30);
@@ -59,11 +59,14 @@ function loadStats() {
 
 function modTick() {
     if(showclass==1) {
+        if(!hided) {
         showInfo();
+        }
     }
     if(showclass==2) {
         showSelect();
     }
+    checklevel();
 }
 
 function dismissselect() {
@@ -112,9 +115,6 @@ function makeInfoGUI() {
 function showInfo() {
     ctx.runOnUiThread(new java.lang.Runnable({
         run: function() {
-            var currentexp;
-            var maxcurrentexp;
-            var currentlevel;
             currentclassGUI.setText("Class : " + currentclass);
             currentclassGUI.setTextColor(android.graphics.Color.GREEN);
             currentclassGUI.setTextSize(18);
@@ -263,8 +263,82 @@ function savestats() {
 }
 function procCmd(cmd) {
     var c=cmd.split(" ");
-    if(c[0]=="class") {
+    if(c[0]=="hide") {
         preventDefault();
-        showclass=2;
+        if(hided) {
+            hided=false
+            makeInfoGUI();
+        } else {
+            hided=true;
+            dismissinfo();
+        }
+    }
+}
+function deathHook(a,v) {
+    if(a==getPlayerEnt()) {
+        var rndexp;
+        if(Entity.getEntityTypeId(v)==32) {
+            rndexp = Math.floor(Math.random()*(100)+(70))
+        }
+        if(Entity.getEntityTypeId(v)==33) {
+            rndexp = Math.floor(Math.random()*(140)+(95))
+        }
+        if(Entity.getEntityTypeId(v)==34) {
+            rndexp = Math.floor(Math.random()*(110)+(95))
+        }
+        if(Entity.getEntityTypeId(v)==35) {
+            rndexp = Math.floor(Math.random()*(90)+(70))
+        }
+        if(Entity.getEntityTypeId(v)==36) {
+            rndexp = Math.floor(Math.random()*(200)+(140))
+        }
+        if(Entity.getEntityTypeId(v)==37) {
+            rndexp = Math.floor(Math.random()*(60)+(40))
+        }
+        if(Entity.getEntityTypeId(v)==38) {
+            rndexp = Math.floor(Math.random()*(150)+(100))
+        }
+        if(Entity.getEntityTypeId(v)==39) {
+            rndexp = Math.floor(Math.random()*(40)+(20))
+        }
+        if(Entity.getEntityTypeId(v)==40) {
+            rndexp = Math.floor(Math.random()*(130)+(95))
+        }
+        if(Entity.getEntityTypeId(v)==41) {
+            rndexp = Math.floor(Math.random()*(300)+(200))
+        }
+        if(Entity.getEntityTypeId(v)==42) {
+            rndexp = Math.floor(Math.random()*(80)+(60));
+        }
+clientMessage(rndexp)
+        if(Level.getGameMode()==0) {
+            if(currentclass=="Archer") {
+                archerexp = parseInt(archerexp+rndexp)
+            }
+            if(currentclass=="Saber") {
+                saberexp = parseInt(saberexp+rndexp)
+            }
+        }
+    }
+}
+
+function checklevel() {
+    if(currentclass=="Archer") {
+        if(archerexp>=archermaxexp) {
+            var sisa = parseInt(archerexp-archermaxexp);
+            archerlevel = parseInt(archerlevel+1);
+            archerexp = parseInt(sisa);
+            archermaxexp = parseInt(Math.round(archerlevel+5*30))
+            ModPE.showTipMessage("Level Up !")
+        }
+    }
+    if(currentclass=="Saber") {
+        if(saberexp>=sabermaxexp) {
+            var sisa = parseInt(saberxp-sabermaxexp);
+            saberlevel = parseInt(saberlevel+1);
+            saberexp = parseInt(sisa);
+            sabermaxexp = parseInt(Math.round(saberlevel+5*30))
+            ModPE.showTipMessage("Level Up !")
+        }
     }
 }
