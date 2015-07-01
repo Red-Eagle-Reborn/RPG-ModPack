@@ -279,7 +279,7 @@ function procCmd(cmd) {
 }
 function deathHook(a,v) {
     if(a==getPlayerEnt()) {
-        var rndexp;
+        var rndexp=5;
         if(Entity.getEntityTypeId(v)==32) {
             rndexp = Math.floor(Math.random()*(100)+(70))
         }
