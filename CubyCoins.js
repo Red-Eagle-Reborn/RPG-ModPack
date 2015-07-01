@@ -54,8 +54,8 @@ function procCmd(cmd) {
   var c = cmd.split(" ");
   if(cmd == "shop") {
     if(!c[1]) {
-      clientMessage(" /shop buy <number> <amount");
-      clientMessage(" /shop buy 1 5");
+      clientMessage(" /shop buy <number>");
+      clientMessage(" /shop buy 1");
       clientMessage("Shop 1/69");
       clientMessage("1.Apple 20c");
       clientMessage("2.Steak 30c");
