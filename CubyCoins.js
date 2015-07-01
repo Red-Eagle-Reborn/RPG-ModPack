@@ -54,8 +54,8 @@ function procCmd(cmd) {
   var c = cmd.split(" ");
   if(cmd == "shop") {
     if(!c[1]) {
-      clientMessage(" /shop buy <number>");
-      clientMessage(" /shop buy 1");
+      cubyChat("/shop buy <number>");
+      cubyChat("/shop buy 1");
       clientMessage("Shop 1/69");
       clientMessage("1.Apple 20c");
       clientMessage("2.Steak 30c");
@@ -144,5 +144,9 @@ bc = function(msg,gg,ss,cc) {
 
 mny = function() {
   clientMessage("Your Money is : " + goldCuby + "g " + silverCuby + "s " + copperCuby + "c");
+}
+
+cubyChat = function(chatc) {
+  clientMessage("[CubyShop] " + chatc);
 }
 
