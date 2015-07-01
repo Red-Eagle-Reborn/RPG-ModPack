@@ -67,51 +67,26 @@ function procCmd(cmd) {
       if(c[1] == "buy") {
         if(c[2]) {
           if(c[2] == "3") {
-            if(goldCuby < 3) {
-              clientMessage("Dont Have Enough Gold");
-            }
-            if(goldCuby >= 3) {
-              if(silverCuby < 25) {
-                if(goldCuby >= 4) {
-                  goldCuby--;
-                  silverCuby+=100;
-                  if(copperCuby >= 80) {
-                    silverCuby -= 25;
-                    copperCuby -= 80;
-                    goldCuby -= 3;
-                    addItemInventory(267,1,0);
-                  }
-                  if(copperCuby < 80) {
-                    silverCuby --;
-                    copperCuby +=100;
-                    addItemInventory(267,1,0);
-                    copperCuby -= 80;
-                  }
-                }
-              }
-              if(silverCuby >= 25) {
-                if(copperCuby >= 80) {
-                  silverCuby -= 25;
-                  copperCuby -= 80;
-                  goldCuby -= 3;
-                  addItemInventory(267,1,0);
-                }
-                if(copperCuby < 80) {
-                  silverCuby--;
-                  copperCuby += 100;
-                  addItemInventory(267,1,0);
-                }
-              }
-            }
+            buy(267,0,"Diamond Sword",3,80,40);
           }
         }
       }
     }
   }
+  if(cmd == "addmoney") {
+    var cc = parseInt(c[1]);
+    addMoney(cc);
+  }y
+  if(cmd == "money") {
+    
+  }
+}
+
+addMoney = function(money) {
+  goldCuby += money;
 }
 
 // Implemented Feature
-/*
 function buy(id,data,iName,gPrice,sPrice,cPrice) {
   if(goldCuby >= gPrice) {
     if(silverCuby >= sPrice) {
@@ -121,8 +96,9 @@ function buy(id,data,iName,gPrice,sPrice,cPrice) {
           silverCuby -= sPrice;
           goldCuby -= gPrice;
           addItemInventory(id,data,1);
+          bc(iName,gPrice,sPrice,cPrice);
         }
-        if(silverCuby < sPrice) {
+        if(silverCuby <= sPrice) {
           errM();
         }
       }
@@ -132,6 +108,18 @@ function buy(id,data,iName,gPrice,sPrice,cPrice) {
         goldCuby -= gPrice;
         addItemInventory(id,data,1);
         bc(iName,gPrice,sPrice,cPrice);
+      }
+    }
+    if(silverCuby < sPrice) {
+      if(goldCuby > gPrice) {
+        goldCuby--;
+        goldCuby -= gPrice;
+        copperCuby -= cPrice;
+        addItemInventory(id,data,1);
+        bc(iName,gPrice,sPrice,cPrice);
+      }
+      if(goldCuby <= gPrice) {
+        errM();
       }
     }
   }
@@ -147,5 +135,8 @@ errM = function() {
 bc = function(msg,gg,ss,cc) {
   clientMessage("[CubyShop] You Bought a " + msg + "For " + gg + "g " + ss + "s " + cc + "c");
 }
-*/
+
+mny = function() {
+  clientMessage("Your Money is : " + goldCuby + "g " + silverCuby + "s " + copperCuby + "c");
+}
 
