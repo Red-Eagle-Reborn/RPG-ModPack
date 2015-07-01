@@ -29,7 +29,7 @@ function deathHook(m,v) {
 }
 
 function destroyBlock(x,y,z,side) {
-  var d = getTile(x,y,z) {
+  var d = getTile(x,y,z);
     if(d == 1 || d == 4 || d == 14 || d == 15 || d == 16 || d == 56) {
       copperCuby = copperCuby + Math.floor(Math.random()*(100));
       var dd = Math.floor(Math.random()*(10));
@@ -48,7 +48,6 @@ function destroyBlock(x,y,z,side) {
         goldCuby = goldCuby + 1;
       }
     }
-  }
 }
 
 function procCmd(cmd) {
