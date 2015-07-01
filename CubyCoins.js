@@ -109,3 +109,43 @@ function procCmd(cmd) {
     }
   }
 }
+
+// Implemented Feature
+/*
+function buy(id,data,iName,gPrice,sPrice,cPrice) {
+  if(goldCuby >= gPrice) {
+    if(silverCuby >= sPrice) {
+      if(copperCuby < cPrice) {
+        if(silverCuby > sPrice) {
+          silverCuby--;
+          silverCuby -= sPrice;
+          goldCuby -= gPrice;
+          addItemInventory(id,data,1);
+        }
+        if(silverCuby < sPrice) {
+          errM();
+        }
+      }
+      if(copperCuby >= cPrice) {
+        copperCuby -= cPrice
+        silverCuby -= sPrice;
+        goldCuby -= gPrice;
+        addItemInventory(id,data,1);
+        bc(iName,gPrice,sPrice,cPrice);
+      }
+    }
+  }
+  if(goldPrice < gPrice) {
+    errM();
+  }
+}
+
+errM = function() {
+  clientMessage("You Don't have Enough Money");
+}
+
+bc = function(msg,gg,ss,cc) {
+  clientMessage("[CubyShop] You Bought a " + msg + "For " + gg + "g " + ss + "s " + cc + "c");
+}
+*/
+
