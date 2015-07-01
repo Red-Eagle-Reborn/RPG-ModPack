@@ -84,7 +84,7 @@ function procCmd(cmd) {
     addMoney(cc);
   }
   if(cmd == "money") {
-    mny(goldCuby,silverCuby,copperCuby);
+    clientMessage("Your Money is : " + goldCuby + "g " + silverCuby + "s " + copperCuby + "c");
   }
 }
 
@@ -140,10 +140,6 @@ errM = function() {
 
 bc = function(msg,gg,ss,cc) {
   clientMessage("[CubyShop] You Bought a " + msg + "For " + gg + "g " + ss + "s " + cc + "c");
-}
-
-mny = function(gg,ss,cc) {
-  clientMessage("Your Money is : " + gg + "g " + ss + "s " + cc + "c");
 }
 
 cubyChat = function(chatc) {
