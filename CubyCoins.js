@@ -82,9 +82,9 @@ function procCmd(cmd) {
   if(cmd == "addmoney") {
     var cc = parseInt(c[1]);
     addMoney(cc);
-  }y
+  }
   if(cmd == "money") {
-    
+    mny();
   }
 }
 
