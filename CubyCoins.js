@@ -67,7 +67,13 @@ function procCmd(cmd) {
       if(c[1] == "buy") {
         if(c[2]) {
           if(c[2] == "3") {
-            buy(267,0,"Diamond Sword",3,80,40);
+            buy(267,0,"Diamond Sword",3,25,80);
+          }
+          if(c[2] == "1") {
+            buy(260,0,"Apple",0,0,20);
+          }
+          if(c[2] == "2") {
+            buy(364,0,"Steak",0,0,30);
           }
         }
       }
