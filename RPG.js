@@ -69,6 +69,7 @@ function modTick() {
         showSelect();
     }
     checklevel();
+    checkfireArrow();
 }
 
 function dismissselect() {
@@ -344,4 +345,34 @@ function checklevel() {
             ModPE.showTipMessage("Level Up !")
         }
     }
+}
+
+var unique =[];
+function entityAddedHook(e) {
+	if(currentclass=="Archer") {
+	if(Entity.getEntityTypeId(e)==80) {
+	if(Player.getCarriedItem()==261) {
+	Entity.setFireTicks(e,999);
+	unique.push([e,Entity.getUniqueId(e)])
+	}
+	}
+	}
+}
+
+function attackHook(a,v) {
+	for(var i=0;i<unique.length;i++) {
+	if(a==unique[i][0]) {
+	var tick = parseInt(archerlevel/2);
+	Entity.setFireTicks(v,tick)
+	}
+	}
+}
+
+function checkfireArrow() {
+	for(var t=0;t<unique.length;t++) {
+	var arr = unique[t][0]
+	if(getTile(Entity.getX(arr),Entity.getY(arr)-1,Entity.getZ(arr)!=0) {
+	setTile(Entity.getX(arr),Entity.getY(arr),Entity.getZ(arr),51)
+	}
+	}
 }
