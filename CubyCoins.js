@@ -84,7 +84,7 @@ function procCmd(cmd) {
     addMoney(cc);
   }
   if(cmd == "money") {
-    mny();
+    mny(goldCuby,silverCuby,copperCuby);
   }
 }
 
@@ -142,11 +142,10 @@ bc = function(msg,gg,ss,cc) {
   clientMessage("[CubyShop] You Bought a " + msg + "For " + gg + "g " + ss + "s " + cc + "c");
 }
 
-mny = function() {
-  clientMessage("Your Money is : " + goldCuby + "g " + silverCuby + "s " + copperCuby + "c");
+mny = function(gg,ss,cc) {
+  clientMessage("Your Money is : " + gg + "g " + ss + "s " + cc + "c");
 }
 
 cubyChat = function(chatc) {
   clientMessage("[CubyShop] " + chatc);
 }
-
